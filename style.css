@@ -34,6 +34,13 @@ h1 {
     text-align: center;
 }
 
+.gruppeA {
+    border: solid 1px black;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
 iframe {
     width: 710px;
     height: 200px;
