@@ -20,36 +20,31 @@ function addBox (id, n1, n2, g1, g2){
     document.querySelector(id).append(div);
 }
 
-function genMatches (nTeams) {
-    // url (required), options (optional)
+function genMatches () {
     fetch('https://spreadsheets.google.com/feeds/cells/1gJLOWF7hFOf3YPCAy4MJegMW9da6zd7iF7UqDc225Io/1/public/full?alt=json', {
         method: 'get'
-    }).then(function(response) {
+    }).then((response) => {
         response.json().then(function(data) {
-            //gruppe a
-            for(let i = 1; i<6; i++){
-                let name = data.feed.entry[i].gs$cell.inputValue;
-                let points = data.feed.entry[i+6].gs$cell.inputValue;
-                createRow("#t1", name, points);
+            
+            function makeGroup(from, to, size, id){
+                const players = [];
+                for(let i = from; i<to; i++){
+                    players.push(
+                        {
+                            name: data.feed.entry[i].gs$cell.inputValue,
+                            points: data.feed.entry[i+size].gs$cell.inputValue
+                        }
+                    )
+                }
+                players.sort((a, b) => a.points - b.points).reverse();
+                players.forEach(player => createRow(id, player.name, player.points))
             }
-            //gruppe b
-            for(let i = 13; i<18; i++){
-                let name = data.feed.entry[i].gs$cell.inputValue;
-                let points = data.feed.entry[i+6].gs$cell.inputValue;
-                createRow("#t2", name, points);
-            }
-            //gruppe c
-            for(let i = 25; i<30; i++){
-                let name = data.feed.entry[i].gs$cell.inputValue;
-                let points = data.feed.entry[i+6].gs$cell.inputValue;
-                createRow("#t3", name, points);
-            }
-            //gruppe d
-            for(let i = 37; i<42; i++){
-                let name = data.feed.entry[i].gs$cell.inputValue;
-                let points = data.feed.entry[i+6].gs$cell.inputValue;
-                createRow("#t4", name, points);
-            }
+
+            makeGroup(1, 6, 6, "#t1");
+            makeGroup(13, 18, 6, "#t2");
+            makeGroup(25, 30, 6, "#t3");
+            makeGroup(37, 42, 6, "#t4"); 
+
             //viertelfinale
             for(let i = 49; i<65; i+=4){
                 let name1 = data.feed.entry[i].gs$cell.inputValue;
@@ -59,8 +54,8 @@ function genMatches (nTeams) {
                 addBox("#viertel", name1, name2, score1, score2);
             }
 
-              //halb
-              for(let i = 66; i<74; i+=4){
+            //halb
+            for(let i = 66; i<74; i+=4){
                 let name1 = data.feed.entry[i].gs$cell.inputValue;
                 let name2 = data.feed.entry[i+1].gs$cell.inputValue;
                 let score1 = data.feed.entry[i+2].gs$cell.inputValue;
@@ -90,5 +85,5 @@ function genMatches (nTeams) {
     });
 }
 
-document.addEventListener("DOMContentLoaded", genMatches(8));
+document.addEventListener("DOMContentLoaded", genMatches());
 
