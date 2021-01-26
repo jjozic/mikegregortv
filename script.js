@@ -45,39 +45,19 @@ function genMatches () {
             makeGroup(25, 30, 6, "#t3");
             makeGroup(37, 42, 6, "#t4"); 
 
-            //viertelfinale
-            for(let i = 49; i<65; i+=4){
-                let name1 = data.feed.entry[i].gs$cell.inputValue;
-                let name2 = data.feed.entry[i+1].gs$cell.inputValue;
-                let score1 = data.feed.entry[i+2].gs$cell.inputValue;
-                let score2 = data.feed.entry[i+3].gs$cell.inputValue;
-                addBox("#viertel", name1, name2, score1, score2);
+            function makeKo(from, to, id){
+                for(let i = from; i<to; i+=4){
+                    let name1 = data.feed.entry[i].gs$cell.inputValue;
+                    let name2 = data.feed.entry[i+1].gs$cell.inputValue;
+                    let score1 = data.feed.entry[i+2].gs$cell.inputValue;
+                    let score2 = data.feed.entry[i+3].gs$cell.inputValue;
+                    addBox(id, name1, name2, score1, score2);
+                }
             }
 
-            //halb
-            for(let i = 66; i<74; i+=4){
-                let name1 = data.feed.entry[i].gs$cell.inputValue;
-                let name2 = data.feed.entry[i+1].gs$cell.inputValue;
-                let score1 = data.feed.entry[i+2].gs$cell.inputValue;
-                let score2 = data.feed.entry[i+3].gs$cell.inputValue;
-                addBox("#halb", name1, name2, score1, score2);
-            }
-            //3. platz
-            for(let i = 75; i<79; i+=4){
-                let name1 = data.feed.entry[i].gs$cell.inputValue;
-                let name2 = data.feed.entry[i+1].gs$cell.inputValue;
-                let score1 = data.feed.entry[i+2].gs$cell.inputValue;
-                let score2 = data.feed.entry[i+3].gs$cell.inputValue;
-                addBox("#platz", name1, name2, score1, score2);
-            }
-              //finale
-              for(let i = 80; i<84; i+=4){
-                let name1 = data.feed.entry[i].gs$cell.inputValue;
-                let name2 = data.feed.entry[i+1].gs$cell.inputValue;
-                let score1 = data.feed.entry[i+2].gs$cell.inputValue;
-                let score2 = data.feed.entry[i+3].gs$cell.inputValue;
-                addBox("#finale", name1, name2, score1, score2);
-            }
+            makeKo(66, 74, "#halb"); 
+            makeKo(75, 79, "#platz"); 
+            makeKo(80, 84, "#finale");
             
           });
     }).catch(function(err) {
