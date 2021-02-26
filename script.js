@@ -21,10 +21,11 @@ function addBox (id, n1, n2, g1, g2){
 }
 
 function genMatches () {
-    fetch('https://spreadsheets.google.com/feeds/cells/1gJLOWF7hFOf3YPCAy4MJegMW9da6zd7iF7UqDc225Io/1/public/full?alt=json', {
+    fetch('https://spreadsheets.google.com/feeds/cells/1VMtW9u1rBe425AmmttrI6_eRWQaon-trOEPG_AvM77w/1/public/full?alt=json', {
         method: 'get'
     }).then((response) => {
         response.json().then(function(data) {
+            console.log(data)
             
             function makeGroup(from, to, size, id){
                 const players = [];
@@ -40,10 +41,10 @@ function genMatches () {
                 players.forEach(player => createRow(id, player.name, player.points))
             }
 
-            makeGroup(1, 6, 6, "#t1");
-            makeGroup(13, 18, 6, "#t2");
-            makeGroup(25, 30, 6, "#t3");
-            makeGroup(37, 42, 6, "#t4"); 
+            makeGroup(1, 5, 5, "#t1");
+            makeGroup(11, 15, 5, "#t2");
+            makeGroup(21, 25, 5, "#t3");
+            makeGroup(31, 35, 5, "#t4"); 
 
             function makeKo(from, to, id){
                 for(let i = from; i<to; i+=4){
@@ -55,9 +56,10 @@ function genMatches () {
                 }
             }
 
-            makeKo(66, 74, "#halb"); 
-            makeKo(75, 79, "#platz"); 
-            makeKo(80, 84, "#finale");
+            makeKo(41, 56, "#viertel"); 
+            makeKo(58, 66, "#halb"); 
+            makeKo(67, 71, "#platz"); 
+            makeKo(72, 76, "#finale");
             
           });
     }).catch(function(err) {
